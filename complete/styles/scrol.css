@@ -1,0 +1,29 @@
+/* اسکرول کل باکس */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* مسیر اسکرول */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* دسته اسکرول */
+::-webkit-scrollbar-thumb {
+  background: rgba(46, 166, 255, 0.4);
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+/* هاور */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(46, 166, 255, 0.8);
+  box-shadow: 0 0 6px #2ea6ff;
+}
+
+/* تنظیمات موبایل */
+@media (max-width: 595px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+}

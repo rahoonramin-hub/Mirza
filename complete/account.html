@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--مشخصات اصلی pwa-->
+    <link rel="manifest" href="manifest.json">
+
+    <!--MetaData-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    
+    <!--لود تمام استایل ها-->
+    <link rel="stylesheet" href="styles/account.css">
+    <link rel="stylesheet" href="styles/icon.css">
+    <link rel="stylesheet" href="styles/modal-1.css">
+    <link rel="stylesheet" href="styles/top-box.css">
+    <link rel="stylesheet" href="styles/record.css"> 
+    <link rel="stylesheet" href="styles/context-menu.css">
+    <link rel="stylesheet" href="styles/modal-2.css">
+    
+    <!--کتابخانه آیکون ها-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  </head>
+  
+  <body>
+    <!--بخش مودال-->
+    <div class="modal-2" >
+      <div class="acount-select-window">
+        <div class="search-section">
+          <input class="searchBox" type="text" placeholder="جستجو">
+        </div>
+        <div class="acounts-section">
+          <div class="user-preview-modal">
+            <img class="prof" src="prof/isha.jpg">
+            <p class="name">ایشا</p>
+          </div> 
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal-1">
+      <div class="new-record-window" >
+        <div class="record-info">
+          <div class="prof-wraper">
+            <img class="prof" src="prof/isha.jpg" onclick="show_modal_2">
+          </div>
+          <p class="name">حساب را انتخاب کنید</p>
+          <input class="description" type="text" placeholder="شرح">
+          <input class="amount" type="number" placeholder="مبلغ">
+          <input class="currency" type="text" placeholder="واحد">
+          <div class="transaction-div">
+            <label class="radio-box">
+              <span>برد</span>  
+              <input type="radio" name="transaction-type" value="payment">
+            </label>
+            <label class="radio-box">
+              <span>رسید</span>
+              <input type="radio" name="transaction-type" value="receipt">
+            </label>
+          </div>
+        </div>
+        <div class="buttons">
+          <button class="cancel" onclick="close_new_record_window">لغو</button>
+          <button class="save" onclick="add_record">ثبت</button>
+        </div>
+      </div>
+    </div>
+
+    <!--بالای صفحه-->
+    <div class="top-box">
+          <div class="prof-wraper">
+            <img class="prof" src="prof/img.JPG" >
+          </div>
+          <div class="name-and-info">
+            <p class="name"></p>
+          </div>
+      <div class="cash-balance"></div>
+      <div class="search-and-users">
+        <input class="searchBox" type="text" placeholder="جستجو">
+        <i class="fa-solid fa-plus" onclick="show_new_record_window()"></i>
+        <i class="fa-solid fa-users" onclick="go_users();"></i>      
+        <i class="fa-solid fa-house" onclick="go_home();"></i>
+        <i class="fa-solid fa-gear" onclick="go_settings()"></i>
+
+      </div>  
+    </div>
+    <div class="record-father"></div>
+
+
+    <!--بخش اسکریپت ها-->
+    <!--کتابخانه فایر بیس-->
+    <script type="module" src="script/firebase-config.js"></script>
+    
+    <!--کتابخانه PDF-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!--برای فونت فارسی-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!--کتابخانه Dexie-->
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+
+    <!--اسکریپت های اصلی-->
+    <script type="module" src="script/common.js"></script>        
+    <script type="module" src="script/func.js"></script>
+    <script type="module" src="script/usefull.js"></script>
+    <script type="module" src="script/edits.js"></script>
+    <script type="module" src="script/account.js"></script>
+
+    <!--تنظیم سرویس ورکر برای حالت آفلاین-->
+    <script>
+      if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('script/sw.js');
+      }
+    </script>
+  </body>
+</html>

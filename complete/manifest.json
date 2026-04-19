@@ -1,0 +1,10 @@
+{
+  "name": "میرزا",
+  "short_name": "میرزا",
+  "start_url": "/login.html",
+  "display": "standalone",
+  "background_color": "#0f1720",
+  "theme_color": "#0f1720",
+  "icons": ["prof/isha.jpg"],
+  "orientation": "portrait"
+}

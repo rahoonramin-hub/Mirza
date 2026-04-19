@@ -1,0 +1,28 @@
+body{
+  font-family: Arial;
+  display: flex;  
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  background-color: #0f1720;
+  margin: 0;
+  padding: 10px;
+}
+
+.dateContainer{
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* تنظیمات موبایل */
+@media (max-width: 595px) {
+  body {
+    padding: 5px;
+  }
+  
+  .dateContainer {
+    font-size: 14px;
+    margin-top: 5px;
+  }
+}

@@ -1,0 +1,125 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0f1720;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.settings-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.settings-card {
+  background-color: #17212b;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border: 1px solid #2a3a4a;
+}
+
+.settings-card h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #2ea6ff;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #2a3a4a;
+  padding-bottom: 10px;
+}
+
+/* دکمه‌ها */
+.btn {
+  background-color: #2ea6ff;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+  margin-bottom: 10px;
+}
+
+.btn:hover {
+  background-color: #5bb8ff;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid #2ea6ff;
+  color: #2ea6ff;
+}
+
+.btn-outline:hover {
+  background-color: #2ea6ff20;
+}
+
+/* فرم بازخورد */
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feedback-form textarea {
+  background-color: #0f1720;
+  border: 1px solid #2a3a4a;
+  border-radius: 8px;
+  padding: 12px;
+  color: white;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.feedback-form textarea:focus {
+  outline: none;
+  border-color: #2ea6ff;
+}
+
+.feedback-form .btn {
+  margin-top: 5px;
+}
+
+/* پیام وضعیت */
+.status-message {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #a8ffa8;
+}
+
+.status-message.error {
+  color: #ffa8a8;
+}
+
+/* بخش راهنما */
+.help-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.help-buttons .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.help-buttons i {
+  font-size: 1.2rem;
+}
+
+/* فضای خالی برای تنظیمات آینده */
+.future-settings-placeholder {
+  color: #aaa;
+  text-align: center;
+  padding: 10px;
+  font-style: italic;
+}

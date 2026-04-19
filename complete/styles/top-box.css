@@ -1,0 +1,226 @@
+/* بدون بدنه و آیکون */
+
+.top-box{
+  background-color: #0a0f14;
+  width: 95%;
+  padding: 12px;
+  align-items: center;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+@media (max-width: 595px) {
+  .top-box{
+    background-color: #0a0f14;
+    width: 95%;
+    padding: 12px;
+    align-items: center;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .name-and-info{
+    justify-content: space-between;
+    display: flex;
+  }
+}
+
+.cash-balance{
+  align-items: center;
+  display: flex;
+  margin: 0px 10px 0px 0px;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cash:hover{
+  color: #1f2c38;
+  box-shadow: 0 0 10px #2ea6ff;
+  background-color: #1f2c38;  
+}
+
+.cash{
+  width: 60px;
+  padding: 8px;
+  border-radius: 10px;
+  background-color: #17212b;
+  display: grid;    
+  text-align: center;
+  gap: 5px;
+  margin: auto;
+}
+
+.toman-cash-title{
+  color: #b2ffa8; 
+}
+
+.afghany-cash-title{
+  color: #fffba8;
+}
+
+.euro-cash-title{
+  color: #ffa8a8;
+}
+
+.dolar-cash-title{
+  color: #efa8ff;
+}
+
+.kaldar-cash-title{
+  color: #a8ebff;
+}
+
+.toman-cash-title,.afghany-cash-title,.euro-cash-title,.dolar-cash-title,.kaldar-cash-title{
+  margin: 0;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.amount{
+  color: white;
+  margin: 0;
+  font-size: 13px;
+}
+
+.searchBox:hover,
+.searchBox:active,
+.searchBox:focus{
+  color: white;
+  border-color: #92c8ff ;
+  box-shadow: 0 0 8px #2ea6ff;
+  background-color: #1f2c38;  
+}
+
+.searchBox{
+  max-width: 280px;
+  min-width: 150px;
+  flex: 1;
+  height: 38px;
+  background-color: #17212b;
+  padding: 5px 12px;
+  border-radius: 25px;
+  border: 1px solid #92c8ff;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+}
+
+.search-and-users{
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+}
+
+/* بخش اکانت */
+.name-and-info{
+  margin-right: 20px;
+}
+
+.prof-wraper{
+  margin-right: 12px;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.modal-1 .prof-wraper{
+  margin: 0;
+}
+
+.prof:hover{
+  transform: scale(1.1);
+}
+
+.prof{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: 0.3s ease-out ;
+}
+
+.name-and-info .name{
+  break-inside: avoid;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.total-currency{
+  color: #ff9393;
+  margin: 0 0 5px 0;
+  font-size: 13px;
+}
+
+.user-preview .total-currency {
+  font-size: 13px;
+}
+
+/* رنگ‌بندی ارزها */
+.افغانی {
+  color: #b2ffa8;
+}
+.تومان {
+  color: #ffa8f2;
+}
+.کالدار {
+  color: #f8ffa8;
+}
+.دالر, .دولار {
+  color: #a8bcff;
+}
+.یورو, .اورو {
+  color: #ffbea8;
+}
+
+/* تنظیمات موبایل */
+@media (max-width: 595px) {
+  .cash {
+    width: 70px;
+    padding: 8px;
+  }
+  
+  .cash .amount {
+    font-size: 14px;
+  }
+  
+  .cash .total-currency {
+    font-size: 12px;
+  }
+  
+  .searchBox {
+    font-size: 16px;
+    min-width: 150px;
+    height: 42px;
+  }
+  
+  .search-and-users {
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  
+  .search-and-users i {
+    font-size: 24px;
+  }
+  
+  .name-and-info .name {
+    font-size: 18px;
+  }
+  
+  .prof-wraper,
+  .prof {
+    width: 55px;
+    height: 55px;
+  }
+}

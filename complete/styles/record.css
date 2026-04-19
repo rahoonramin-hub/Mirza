@@ -1,0 +1,225 @@
+/* بخش رکورد */
+.record:hover{
+  color: #1f2c38;
+  box-shadow: 0 0 8px #2ea6ff;
+  background-color: #1f2c38;  
+}
+
+.record{
+  background-color: #17212b;
+  display: flex;
+  width: 95%;
+  max-width: 500px;
+  min-width: 280px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+.record .prof{
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.record .name{
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0px 0px 8px;
+}
+
+.description{
+  color: #68636b;
+  font-size: 13px;
+  margin: 0;
+}
+
+.name-and-description{
+  flex: 1;
+}
+
+.price-content{
+  text-align: right;
+  font-size: 12px;
+  color: #68636b;
+}
+
+.state{
+  color: #b2ffa8;
+}
+
+.amount{
+  color: white;
+}
+
+.record .amount, .currency, .state{
+  margin: 0px 0px 2px;
+}
+
+.new-record-window:hover {        
+  box-shadow: 0 0 15px #2ea6ff;   
+}
+
+.new-record-window{        
+  align-items: center;
+  box-shadow: 0 0 8px #2ea6ff;
+  display: grid;
+  padding: 15px;
+  background-color: #0a0f14;
+  width: 85%;
+  max-width: 300px;
+  border-radius: 12px;
+  row-gap: 12px;
+}
+
+.record-info{
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  row-gap: 12px;
+  width: 100%;
+}
+
+.record-info input[type="text"]:hover,
+.record-info input[type="text"]:active,
+.record-info input[type="text"]:focus,
+.record-info input[type="number"]:hover,
+.record-info input[type="number"]:active,
+.record-info input[type="number"]:focus{
+  color: white;
+  border-color: #92c8ff ;
+  box-shadow: 0 0 8px #2ea6ff;
+  background-color: #1f2c38;  
+}
+
+.record-info input{
+  background-color: #17212b;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid #3d444ac5;
+  padding: 10px;
+  font-size: 14px;
+  width: 90%;
+}
+
+.record-info .description{
+  width: 90%;
+  height: 60px;
+}
+
+.record-info .amount{
+  width: 85%;
+  height: 35px;
+}
+
+.record-info .currency{
+  width: 75%;
+  height: 35px;
+}
+
+/* بخش اینپوت رادیو ها */      
+.transaction-div{
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+  gap: 20px;
+}
+
+.transaction-div .radio-box{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+span{
+  color: white;
+  font-size: 14px;
+}
+
+input[type="radio"]{
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+input[type="radio"]:hover{
+  border-color: #92c8ff;
+  filter: drop-shadow(0 0 5px #2ea6ff);
+}
+
+/* کانتینر رکورد */
+.record-father{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+/* تنظیمات موبایل */
+@media (max-width: 595px) {
+  .record {
+    padding: 12px;
+    width: 95%;
+  }
+  
+  .record .prof {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .record .name {
+    font-size: 15px;
+  }
+  
+  .record .description {
+    font-size: 12px;
+  }
+  
+  .price-content {
+    font-size: 11px;
+  }
+  
+  .record .amount {
+    font-size: 14px;
+  }
+  
+  .new-record-window {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .record-info input {
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .transaction-div {
+    width: 90%;
+  }
+  
+  span {
+    font-size: 14px;
+  }
+}
+/* اضافه کن - رنگ قرمز برای برد */
+.record .state[data-state="برد"] {
+    color: #ff6666 !important;
+}
+
+.record .state[data-state="رسید"] {
+    color: #b2ffa8 !important;
+}
+.برد{
+  color: #ff6666;
+}

@@ -1,0 +1,125 @@
+.modal-1 {
+  display: none; 
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8); 
+  justify-content: center; 
+  align-items: center;    
+  z-index: 1000;
+}
+
+.prof-wraper{
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.prof:hover{
+  transform: scale(1.2);
+}
+
+.prof{
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: 0.4s ease-out ;
+}
+
+.buttons{
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.buttons button{
+  background-color: #17212b;
+  font-size: 14px;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 70px;
+  height: 35px;
+  border: 1px solid #2ea6ff;
+}
+
+.buttons button:hover {
+  background-color: #2ea6ff;
+  color: black;
+}
+
+.modal-1 .name{
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin: 5px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+}
+
+/* مودال ادیت */
+.modal-edit-trans{
+  display: flex; 
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8); 
+  justify-content: center; 
+  align-items: center;
+  z-index: 1000;
+}
+
+.edit-record-window:hover{
+  box-shadow: 0 0 15px #2ea6ff;   
+}
+
+.edit-record-window{
+  align-items: center;
+  box-shadow: 0 0 8px #2ea6ff;
+  display: grid;
+  padding: 15px;
+  background-color: #0a0f14;
+  width: 85%;
+  max-width: 300px;
+  border-radius: 12px;
+  row-gap: 12px;
+}
+
+/* تنظیمات موبایل */
+@media (max-width: 595px) {
+  .edit-record-window,
+  .new-record-window {
+    width: 90%;
+    max-width: 320px;
+    padding: 15px;
+  }
+  
+  .buttons button {
+    width: 80px;
+    height: 40px;
+    font-size: 14px;
+  }
+  
+  .modal-1 .name {
+    font-size: 16px;
+  }
+  
+  .prof-wraper {
+    width: 65px;
+    height: 65px;
+  }
+  
+  .prof {
+    width: 65px;
+    height: 65px;
+  }
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <link rel="manifest" href="manifest.json">
+    <title>تنظیمات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/settings.css">
+    <link rel="stylesheet" href="styles/icon.css">
+    <link rel="stylesheet" href="styles/top-box.css">
+</head>
+<body>
+    <div class="top-box">
+        <div class="cash-balance"></div>
+        <div class="search-and-users">
+            <i class="fa-solid fa-house" onclick="go_home()"></i>
+            <i class="fa-solid fa-users" onclick="go_users()"></i>
+        </div>
+    </div>
+
+    <main class="settings-container">
+        <!-- بخش‌ها با JavaScript ساخته می‌شوند -->
+    </main>
+
+    <!-- اسکریپت‌ها -->
+    <script type="module" src="script/firebase-config.js"></script>
+    <script type="module" src="script/common.js"></script>
+    <script type="module" src="script/settings.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('script/sw.js');
+        }
+    </script>
+</body>
+</html>

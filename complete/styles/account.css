@@ -1,0 +1,17 @@
+body{
+  background-color: #0f1720;
+  font-family: arial;
+  display: flex;        
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  margin: 0;
+  padding: 10px;
+}
+
+/* تنظیمات موبایل */
+@media (max-width: 595px) {
+  body {
+    padding: 5px;
+  }
+}

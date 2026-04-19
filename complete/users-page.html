@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--مشخصات PWA-->
+    <link rel="manifest" href="manifest.json">
+    
+    <!--MetaData-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    
+    <!--کتابخانه آیکون ها-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!--استایل ها-->
+    <link rel="stylesheet" href="styles/icon.css">
+    <link rel="stylesheet" href="styles/modal-1.css">
+    <link rel="stylesheet" href="styles/top-box.css">
+    <link rel="stylesheet" href="styles/context-menu.css">
+    <link rel="stylesheet" href="styles/users-page.css">
+  </head>
+  <body>
+    <!--بخش مودال -->
+      <div class="modal-1">
+        <div class="new-user-window">
+          <div class="user-info">
+            <div class="prof-wraper">
+              <input type="file" accept="image/*" class="prof-input" hidden>
+              <img class="prof" src="prof/img.JPG" onclick="prof_input()">
+            </div>
+            <input class="name" type="text" placeholder="نام">
+            <input class="description" type="text" placeholder="توضیحات">
+            <input class="bookAddress" type="text" placeholder="درج شده به">
+            <input class="phone-num" type="text" placeholder="شماره">
+            <input class="telegram-id" type="text" placeholder="تلگرام">
+          </div>
+          <div class="buttons">          
+            <button class="save" onclick="add_user()">ثبت</button>
+            <button class="cancel" onclick="close_new_user_window()">لغو</button>
+          </div>
+        </div>
+      </div>
+     
+
+
+    <!--بخش بالای صحفه -->
+      <div class="top-box">
+        <div class="cash-balance">
+          
+        </div>
+        <div class="search-and-users">
+          <input class="searchBox" type="text" placeholder="جستجو">
+          <i class="fa-solid fa-house" onclick="go_home();"></i>
+          <i class="fa-solid fa-plus" onclick="show_new_user_window()"></i>
+          <i class="fa-solid fa-gear" onclick="go_settings()"></i>
+
+        </div>  
+      </div>
+
+    <div class="user-preview-father"></div>
+      
+
+    <!--اسکریپت ها-->
+    <!--کتابخانه فایربیس-->
+    <script type="module" src="script/firebase-config.js"></script>
+    
+    <!--کتابخانه Dexie-->
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+
+      <!--PDF-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!--اسکریپت های اصلی-->
+    <script type="module" src="script/common.js"></script>
+    <script type="module" src="script/func.js"></script>
+    <script type="module" src="script/usefull.js"></script>
+    <script type="module" src="script/edits.js"></script>
+    <script type="module" src="script/users-page.js"></script>
+
+    <!--سرویس ورکر برای حالت آفلاین-->
+    <script>
+      if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('script/sw.js');
+      }
+    </script>
+  </body>
+</html>
