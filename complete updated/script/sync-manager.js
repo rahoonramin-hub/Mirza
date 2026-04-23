@@ -63,7 +63,7 @@ class SyncManager {
     isOversizedProfileData(value) {
         return typeof value === 'string'
             && value.startsWith('data:image/')
-            && value.length > 1000000;
+            && value.length > 900000;
     }
 
     async syncWithFirestore(ownerUid) {

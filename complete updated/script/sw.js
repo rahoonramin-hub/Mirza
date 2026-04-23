@@ -1,6 +1,6 @@
 // sw.js
 
-const CACHE_NAME = 'accountant-v4';
+const CACHE_NAME = 'accountant-v5';
 
 const CORE_ASSETS = [
     '/',

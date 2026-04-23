@@ -1,4 +1,4 @@
-// users-page.js
+﻿// users-page.js (استفاده از base64 به جای Firebase Storage)
 
 import {
     onAuth, loadData, saveData,
@@ -6,32 +6,64 @@ import {
     go_home, calculateTotals,
     go_settings, onSyncStatusChange, enhanceInteractiveAccessibility
 } from './common.js';
-import { auth, storage } from './firebase-config.js';
+import { auth } from './firebase-config.js';
+/* دیگر نیازی به توابع Storage نداریم
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
+*/
 import { showUserContextMenu } from './usefull.js';
 import { render_search_users } from './func.js';
 
 const loader = document.querySelector(".loader");
 
-async function uploadProfileImage(file, userId) {
-    const ownerUid = auth.currentUser?.uid;
-    if (!ownerUid) throw new Error('ownerUid نامعتبر است');
+// ---------- ۱. فشرده‌سازی و تبدیل به base64 ----------
+async function compressAndConvertToBase64(file, maxWidth = 200, maxHeight = 200, quality = 0.6) {
+    return new Promise((resolve, reject) => {
+        if (!file.type.match('image.*')) {
+            reject(new Error('فایل انتخاب‌شده تصویر نیست'));
+            return;
+        }
 
-    const originalName = file.name || 'profile.png';
-    const safeName = originalName.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const extension = safeName.includes('.') ? safeName.split('.').pop() : 'png';
-    const profileRef = ref(storage, `profile-images/${ownerUid}/${userId}-${Date.now()}.${extension}`);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                // محاسبهٔ ابعاد جدید با حفظ نسبت
+                let { width, height } = img;
+                if (width > maxWidth || height > maxHeight) {
+                    const ratio = Math.min(maxWidth / width, maxHeight / height);
+                    width = Math.round(width * ratio);
+                    height = Math.round(height * ratio);
+                }
 
-    await uploadBytes(profileRef, file, {
-        contentType: file.type || 'image/png',
-        cacheControl: 'public,max-age=31536000'
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // تبدیل به base64 با کیفیت و فرمت مناسب
+                const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                resolve(dataUrl);
+            };
+            img.onerror = () => reject(new Error('خواندن تصویر ناموفق بود'));
+            img.src = e.target.result;
+        };
+        reader.onerror = () => reject(new Error('خواندن فایل ناموفق بود'));
+        reader.readAsDataURL(file);
     });
+}
 
-    return getDownloadURL(profileRef);
+// ---------- ۲. فرایند ذخیرهٔ عکس (دیگر آپلود نمی‌شود) ----------
+async function processProfileImage(file) {
+    const ownerUid = auth.currentUser?.uid;
+    if (!ownerUid) throw new Error('کاربر وارد نشده است');
+    if (!file) return 'img.JPG'; // تصویر پیش‌فرض
+
+    // بازگرداندن یک رشتهٔ base64 کوچک (حداکثر ۲۰۰px عرض و کیفیت ۰.۶)
+    return await compressAndConvertToBase64(file);
 }
 
 // ---------- توابع مربوط به کاربران ----------
-
 function createUser(name, description, phone_num, telegram_id, prof, bookAddress, user_id) {
     return {
         name: name,
@@ -43,10 +75,10 @@ function createUser(name, description, phone_num, telegram_id, prof, bookAddress
         bookAddress: bookAddress,
         cash: [],
         currencies_total: {}
-
     };
 }
 
+// (بقیه توابع رندر و ... بدون تغییر)
 export async function renderUsers() {
     const container = document.querySelector('.user-preview-father');
     if (loader) {
@@ -169,45 +201,69 @@ function close_new_user_window() {
     const saveBtn = modal.querySelector('.save');
     saveBtn.textContent = 'ثبت';
     saveBtn.onclick = add_user;
+
+    // پاک کردن base64 قبلی از حافظهٔ مودال (اختیاری)
+    if (modal._compressedBase64) {
+        delete modal._compressedBase64;
+    }
 }
 
+// ---------- انتخاب عکس و پیش‌نمایش + فشرده‌سازی زودهنگام ----------
 function prof_input() {
-    const prof = document.querySelector('.new-user-window .prof');
-    const profInput = document.querySelector('.prof-input');
+    const profImg = document.querySelector('.new-user-window .prof');
+    const profInput = document.querySelector('.new-user-window .prof-input');
     profInput.click();
-    profInput.onchange = () => {
+    profInput.onchange = async () => {
         const file = profInput.files[0];
         if (!file) return;
+
+        // نمایش پیش‌نمایش فوری (بدون فشرده‌سازی)
         const previewUrl = URL.createObjectURL(file);
-        prof.onload = () => URL.revokeObjectURL(previewUrl);
-        prof.src = previewUrl;
+        profImg.onload = () => URL.revokeObjectURL(previewUrl);
+        profImg.src = previewUrl;
+
+        // فشرده‌سازی و ذخیرهٔ base64 در المان مودال
+        try {
+            const compressed = await compressAndConvertToBase64(file, 200, 200, 0.5);
+            // در دیتابیس مستقیماً از این رشته استفاده می‌کنیم
+            // آن را به مودال الصاق می‌کنیم تا بعداً add_user استفاده کند
+            const modal = document.querySelector('.new-user-window');
+            if (modal) {
+                modal._compressedBase64 = compressed;
+            }
+        } catch (err) {
+            alert('خطا در پردازش تصویر: ' + err.message);
+        }
     };
 }
 
+// ---------- افزودن کاربر جدید ----------
 async function add_user() {
     const modal = document.querySelector('.new-user-window');
     if (!modal) return;
-    modal.style.display = "none";
+    modal.style.display = "none";  // مخفی کردن فوری برای UX بهتر
 
     const loaderEl = loader || document.querySelector('.loader');
-    if (loaderEl && loaderEl.style.display === "none") { loaderEl.style.display = "block"; }
+    if (loaderEl) { loaderEl.style.display = "block"; }
 
     const name = modal.querySelector('.name').value.trim();
     const description = modal.querySelector('.description').value.trim();
     const phone_num = modal.querySelector('.phone-num').value.trim();
     const telegram_id = modal.querySelector('.telegram-id').value.trim();
     const book_address = modal.querySelector('.bookAddress').value.trim();
-    const file = modal.querySelector('.prof-input').files[0];
 
     if (!name) {
         alert('لطفاً نام را وارد کنید');
+        if (loaderEl) loaderEl.style.display = "none";
+        modal.style.display = "flex";
         return;
     }
 
     const userId = String(Date.now());
     let prof = "img.JPG";
-    if (file) {
-        prof = await uploadProfileImage(file, userId);
+    // استفاده از base64 فشرده (اگر کاربر عکس انتخاب کرده باشد)
+    if (modal._compressedBase64) {
+        prof = modal._compressedBase64;
     }
 
     const newUser = {
@@ -223,15 +279,24 @@ async function add_user() {
         currencies_total: {}
     };
 
-    const appData = await loadData();
-    appData.customers.push(newUser);
-    await saveData(appData);
+    try {
+        const appData = await loadData();
+        appData.customers.push(newUser);
+        await saveData(appData);
 
-    document.querySelector('.modal-1').style.display = "none";
-    await renderUsers();
-    close_new_user_window();
+        // بستن و پاک‌سازی فرم
+        close_new_user_window();
+        await renderUsers();
+    } catch (error) {
+        console.error('خطا در افزودن کاربر:', error);
+        alert('مشکلی در ذخیره‌سازی پیش آمد. دوباره تلاش کنید.');
+        modal.style.display = "flex";  // در صورت خطا دوباره نمایش بده
+    } finally {
+        if (loaderEl) loaderEl.style.display = "none";
+    }
 }
 
+// ---------- ویرایش کاربر ----------
 function showEditUserModal(user) {
     const modal = document.querySelector('.modal-1');
     modal.querySelector('.name').value = user.name || '';
@@ -240,6 +305,8 @@ function showEditUserModal(user) {
     modal.querySelector('.telegram-id').value = user.telegram_id || '';
     modal.querySelector('.bookAddress').value = user.bookAddress || '';
     modal.querySelector('.prof').src = user.prof || 'img.JPG';
+    // پاک کردن base64 قبلی
+    if (modal._compressedBase64) delete modal._compressedBase64;
 
     const saveBtn = modal.querySelector('.save');
     saveBtn.textContent = 'ذخیره تغییرات';
@@ -254,13 +321,9 @@ function showEditUserModal(user) {
         targetUser.telegram_id = modal.querySelector('.telegram-id').value.trim();
         targetUser.bookAddress = modal.querySelector('.bookAddress').value.trim();
 
-        const profInput = modal.querySelector('.prof-input');
-        if (profInput.files.length > 0) {
-            const file = profInput.files[0];
-            targetUser.prof = await uploadProfileImage(
-                file,
-                targetUser.id || targetUser.user_id || String(Date.now())
-            );
+        // اگر عکس جدید انتخاب شده باشد
+        if (modal._compressedBase64) {
+            targetUser.prof = modal._compressedBase64;
         }
 
         await saveData(appData);
@@ -304,14 +367,7 @@ onAuth(async (isLoggedIn) => {
         const gearBTN = document.querySelector('.fa-gear');
         if (gearBTN) gearBTN.addEventListener("click", go_settings);
 
-        onSyncStatusChange(status => {
-            const el = document.getElementById('sync-status');
-            if (el) {
-                el.textContent = status.message;
-                el.className = `sync-status ${status.state}`;
-            }
-        });
-
+        // حذف import Storage از بالای فایل به معنی عدم وجود آن است
     } else {
         window.location.href = 'login.html';
     }

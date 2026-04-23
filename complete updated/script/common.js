@@ -8,6 +8,8 @@ import {
   signInWithEmailAndPassword, signOut, onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 
+import {getPersianDate} from './usefull.js';
+
 let currentOwnerUid = null;
 let customersUnsubscribe = null;
 let appDataCache = null;
@@ -780,17 +782,7 @@ export function go_home() {
     window.location.href = `home-complete.html`;
 }
 
-// تابع دریافت تاریخ شمسی (باید مطابق پروژه شما باشد)
-function getPersianDate() {
-    // پیاده‌سازی تاریخ شمسی - جایگزین با کد واقعی پروژه
-    const date = new Date();
-    // فرض می‌کنیم تابع global دارید
-    if (typeof window.getPersianDate === 'function') {
-        return window.getPersianDate();
-    }
-    // نمونه ساده (باید با کتابخانه واقعی جایگزین شود)
-    return date.toLocaleDateString('fa-IR');
-}
+
 // ========== توابع مودال‌ها ==========
 
 export function show_new_record_window() {
@@ -971,9 +963,9 @@ function setupEnterToNextField(formContainerSelector) {
  * نمایش تراکنش‌های امروز در صفحه اصلی
  */
 export async function render_rec() {
-
-    if (document.querySelector(".loader")){
-        document.querySelector(".loader").style.display = "inline-block";
+    const loader = document.querySelector(".loader");  
+    if (loader && loader.style.display !== "inline-block") {
+        loader.style.display = "inline-block";
     }
     document.querySelector('.cash-balance').innerHTML = '';
     let total_currencies = {};
@@ -1070,6 +1062,13 @@ export async function render_rec() {
 
 //اضافه کردن تراکنش
 export async function add_record() {
+    const loader = document.querySelector(".loader");
+    if (record_window && record_window.style.display !== 'none') {
+        record_window.style.display = 'none';
+    }
+    if (loader && loader.style.display !== "inline-block") {
+        loader.style.display = "inline-block";
+    }
     const customerId = sessionStorage.getItem('currentUserId');
     if (!customerId) {
         alert('ابتدا یک مشتری انتخاب کنید.');
@@ -1124,6 +1123,7 @@ export async function add_record() {
         console.error("خطا در افزودن تراکنش:", error);
         alert("خطا در ثبت تراکنش. لطفاً دوباره تلاش کنید.");
     }
+    record_window.style.display = 'grid';
 }
 //on and off
 export function onSyncStatusChange(callback) {
