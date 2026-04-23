@@ -123,7 +123,7 @@ export async function renderUsers() {
         let totalFather = document.createElement('div');
         totalFather.className = 'currencies-and-totals-5';
         if (Object.keys(currencies).length === 0) {
-            if (user.cash.length === 0) totalFather.textContent = 'هنوزی ثبت نشده';
+            if (user.cash.length === 0) totalFather.textContent = 'چیزی ثبت نشده';
             else totalFather.textContent = 'تصفیه است';
         } else {
             Object.entries(currencies).forEach(([curr, amount]) => {
