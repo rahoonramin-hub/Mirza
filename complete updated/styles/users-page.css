@@ -1,0 +1,243 @@
+body{
+  font-family: Arial;
+  display: flex;  
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  background-color: #0f1720;
+  margin: 0;
+  padding: 10px;
+}
+
+.user-preview-father{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.user-preview:hover{
+  box-shadow: 0 0 8px #2ea6ff;
+  background-color: #1f2c38;  
+}
+
+.user-preview{
+  background-color: #17212b;
+  display: flex;
+  width: 95%;
+  max-width: 650px;
+  min-width: 280px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  flex-wrap: wrap;
+}
+
+.user-preview:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 166, 255, 0.35);
+}
+
+.user-preview .prof{
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.user-preview .name{
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0px 0px 8px;
+}
+
+.bookAddress{
+  color: #68636b;
+  font-size: 13px;
+  margin: 0;
+}
+
+.name-and-bookAddress{
+  margin-left: 12px;
+  flex: 1;
+}
+
+.currencies-and-totals-5{
+  display: flex;
+  margin-left: auto;
+  column-gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.currency-and-total{
+  display: grid;
+  height: auto;
+  text-align: center;
+  padding: 5px;
+}
+
+.currency-and-total .currency{
+  font-size: 13px;
+  margin: 0px 0px 5px 0px;
+}
+
+.currency-and-total .total{
+  font-size: 12px;
+  margin: 0;
+  color: white;
+}
+
+.toman{
+  color: #b2ffa8; 
+}
+
+.afghany{
+  color: #fffba8;
+}
+
+.euro{
+  color: #ffa8a8;
+}
+
+.dolar{
+  color: #efa8ff;
+}
+
+.kaldar{
+  color: #a8ebff;
+}
+
+.new-user-window{
+  align-items: center;
+  box-shadow: 0 0 8px #2ea6ff;
+  display: grid;
+  padding: 15px;
+  background-color: #0a0f14;
+  width: 85%;
+  max-width: 320px;
+  border-radius: 12px;
+  row-gap: 12px;
+}
+
+.new-user-window:hover {
+  box-shadow: 0 0 15px #2ea6ff;      
+}
+
+.user-info{
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  row-gap: 10px;
+  width: 100%;
+}
+
+.new-user-window .buttons{
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.buttons button{
+  background-color: #17212b;
+  font-size: 14px;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 80px;
+  height: 38px;
+  border: 1px solid #2ea6ff;
+}
+
+.buttons button:hover {
+  background-color: #2ea6ff;
+  color: black;
+}
+
+.buttons button:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 166, 255, 0.35);
+}
+
+.user-info input:hover,
+.user-info input:active,
+.user-info input:focus{
+  color: white;
+  border-color: #92c8ff ;
+  box-shadow: 0 0 8px #2ea6ff;
+  background-color: #1f2c38;  
+}
+
+.user-info input{
+  background-color: #17212b;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid #3d444ac5;
+  padding: 10px;
+  font-size: 14px;
+  width: 90%;
+}
+
+.user-info .description{
+  width: 90%;
+  height: 60px;
+}
+
+.user-info .phone-num{
+  width: 85%;
+  height: 35px;
+}
+
+.user-info .telegram-id{
+  width: 80%;
+  height: 35px;
+}
+
+/* تنظیمات موبایل */
+@media (max-width: 595px) {
+  body {
+    padding: 5px;
+  }
+  
+  .user-preview {
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  .user-preview .prof {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .user-preview .name {
+    font-size: 16px;
+  }
+  
+  .currencies-and-totals-5 {
+    margin-left: 0;
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+  
+  .new-user-window {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .user-info input {
+    font-size: 16px;
+  }
+  
+  .buttons button {
+    width: 90px;
+    height: 42px;
+    font-size: 14px;
+  }
+}

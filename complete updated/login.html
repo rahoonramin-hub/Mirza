@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <!--MetaDAta-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+    <link rel="manifest" href="manifest.json">
+    
+    <!--آیکون ها-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+ 
+    <!--استایل-->
+    <link rel="stylesheet" href="styles/login.css">
+
+    <title>ورود به حساب</title>
+ </head>
+<body>
+
+    <div class="login-container">
+        <i class="fa-solid fa-user-check" ></i>
+        <h2>ورود به برنامه حسابداری</h2>
+        <input type="email" id="email" placeholder="ایمیل" class="input">
+        <input type="password" id="password" placeholder="رمز عبور" class="input">
+        <button id="loginBtn" class="btn">ورود</button>
+        <p id="errorMsg" class="error"></p>
+    </div>
+
+    <!--کتابخانه فایر بیس-->
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+    
+    <!--اسکریپت اصلی-->
+    <script type="module" src="script/common.js"></script>
+    <script type="module">
+        import { login, onAuth } from './script/common.js';
+        document.getElementById('loginBtn').onclick = async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                await login(email, password);
+                window.location.href = 'home-complete.html';
+            } catch (err) {
+                document.getElementById('errorMsg').innerText = 'ایمیل یا رمز اشتباه است';
+            }
+        };
+        onAuth((loggedIn) => {
+            if (loggedIn) window.location.href = 'home-complete.html';
+        });
+    </script>
+    <script>
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+
+        emailInput?.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter') return;
+            event.preventDefault();
+            passwordInput?.focus();
+        });
+
+        passwordInput?.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter') return;
+            event.preventDefault();
+            loginBtn?.click();
+        });
+
+        emailInput?.focus();
+    </script>
+    <script>
+      if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('script/sw.js');
+      }
+    </script>
+</body>
+</html>

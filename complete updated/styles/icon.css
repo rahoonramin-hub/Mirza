@@ -1,0 +1,132 @@
+.search-and-users .fa-solid:hover,
+.search-and-users .fa-solid:active{
+  filter: drop-shadow(0 0 4px #2ea6ff);
+  background-color: transparent;
+}
+
+.search-and-users .fa-solid{
+  color: white;
+  margin: 0px 8px 0px 0px;
+  background-color: transparent;
+}
+
+/* تنظیمات موبایل */
+@media (max-width: 595px) {
+  .search-and-users .fa-solid {
+    font-size: 22px;
+    margin: 0px 12px;
+  }
+}
+
+/* ===== Loader ===== */
+.loader {
+  margin-top: 4vh;
+  position: relative;
+  width: 55px;
+  height: 55px;
+  display: inline-block;
+}
+
+/* حلقه اصلی */
+.loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top: 3px solid #2ea6ff;
+  border-right: 3px solid #2ea6ff;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 10px #2ea6ff88;
+}
+
+/* نقطه در حال چرخش */
+.loader::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: #2ea6ff;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px #2ea6ff;
+  animation: orbit 1s linear infinite;
+}
+
+/* انیمیشن چرخش */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* انیمیشن حرکت نقطه */
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(20px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(20px) rotate(-360deg);
+  }
+}
+
+/* ===== Mobile Optimization ===== */
+@media (max-width: 595px) {
+  .loader {
+    width: 38px;
+    height: 38px;
+  }
+
+  .loader::before {
+    border-width: 2.5px;
+  }
+
+  .loader::after {
+    width: 6px;
+    height: 6px;
+    top: 4px;
+  }
+}
+
+/* استایل وضعیت همگام‌سازی */
+.sync-status {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    background-color: #333;
+    color: white;
+    z-index: 9999;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: background-color 0.3s;
+    pointer-events: none; /* اجازه کلیک به عناصر زیرین */
+}
+
+.sync-status.online {
+    background-color: #2ea6ff;
+    color: black;
+}
+
+.sync-status.offline {
+    background-color: #ff6666;
+    color: white;
+}
+
+.sync-status.syncing {
+    background-color: #ffd966;
+    color: black;
+}
+
+.sync-status.error {
+    background-color: #ff4444;
+    color: white;
+}
+
+/* مخفی کردن در حالت پیش‌فرض تا وقتی وضعیت مشخص شود */
+.sync-status:empty {
+    display: none;
+}
