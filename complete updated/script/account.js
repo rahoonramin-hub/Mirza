@@ -88,6 +88,7 @@ export async function renderAccountTransactions(appData) {
         let lastTap = 0;
         let tapTimeout;
         recordDiv.addEventListener('pointerup', async (e) => {
+            e.preventDefault();
             if (e.pointerType !== 'touch') return;
             const now = Date.now();
             if (now - lastTap < 300) {
@@ -95,7 +96,7 @@ export async function renderAccountTransactions(appData) {
                 await right_click(e.clientX, e.clientY, user, trans, recordDiv);
             } else {
                 tapTimeout = setTimeout(async () => {
-                    await show_edit_modal(user, trans);
+                    await right_click(e.clientX, e.clientY, user, trans, recordDiv);
                 }, 300);
             }
             lastTap = now;

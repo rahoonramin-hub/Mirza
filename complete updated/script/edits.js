@@ -12,7 +12,8 @@ export async function show_edit_modal(user, trans) {
     const modal = document.createElement('div');
     modal.className = 'modal-edit-trans';
     modal.innerHTML = `
-        <div class="edit-record-window">
+        <div class="edit-record-window" style="text-align: center;">
+            <p class="modal-title">ویرایش تراکنش</p>
             <div class="record-info">
                 <div class="prof-wraper">
                     <img class="prof" src="${user.prof || 'img.JPG'}">

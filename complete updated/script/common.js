@@ -1036,6 +1036,7 @@ export async function render_rec() {
             let lastTap = 0;
             let tapTimeout;
             newRec.addEventListener('pointerup', async (e) => {
+                e.preventDefault();
                 if (e.pointerType !== 'touch') return;
                 const now = Date.now();
                 if (now - lastTap < 300) {
@@ -1043,7 +1044,7 @@ export async function render_rec() {
                     await right_click(e.clientX, e.clientY, user, trans, newRec);
                 } else {
                     tapTimeout = setTimeout(async () => {
-                        await show_edit_modal(user, trans);
+                        await right_click(e.clientX, e.clientY, user, trans, newRec);
                     }, 300);
                 }
                 lastTap = now;

@@ -1,6 +1,6 @@
 import { loadData, escapeHtml, saveData, render_rec, render_top_box } from './common.js';
 import { renderUsers } from './users-page.js';
-import { getPersianDate } from './usefull.js';
+import { getPersianDate, showUserContextMenu } from './usefull.js';
 import { right_click, show_edit_modal } from './edits.js'; // <-- ایمپورت توابع لازم
 
 // ------------------------------------------------------
@@ -77,6 +77,7 @@ export async function render_search_recs(page, value) {
             let lastTap = 0;
             let tapTimeout;
             newRec.addEventListener('pointerup', async (e) => {
+                e.preventDefault();
                 if (e.pointerType !== 'touch') return;
                 const now = Date.now();
                 if (now - lastTap < 300) {
@@ -84,7 +85,7 @@ export async function render_search_recs(page, value) {
                     await right_click(e.clientX, e.clientY, user, trans, newRec);
                 } else {
                     tapTimeout = setTimeout(async () => {
-                        await show_edit_modal(user, trans);
+                        await right_click(e.clientX, e.clientY, user, trans, newRec);
                     }, 300);
                 }
                 lastTap = now;
@@ -173,6 +174,7 @@ export async function render_search_account_transactions(userId, searchValue) {
         let lastTap = 0;
         let tapTimeout;
         recordDiv.addEventListener('pointerup', async (e) => {
+            e.preventDefault();
             if (e.pointerType !== 'touch') return;
             const now = Date.now();
             if (now - lastTap < 300) {
@@ -180,7 +182,7 @@ export async function render_search_account_transactions(userId, searchValue) {
                 await right_click(e.clientX, e.clientY, user, trans, recordDiv);
             } else {
                 tapTimeout = setTimeout(async () => {
-                    await show_edit_modal(user, trans);
+                    await right_click(e.clientX, e.clientY, user, trans, recordDiv);
                 }, 300);
             }
             lastTap = now;
