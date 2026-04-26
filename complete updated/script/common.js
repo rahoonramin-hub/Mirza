@@ -808,6 +808,8 @@ export async function show_modal_2() {
 }
 
 export function close_new_record_window() {
+    const window = document.querySelector('.new-record-window');
+    if (window.style.display !== "grid") window.style.display = "grid";
     document.querySelector(".modal-1").style.display = 'none';
     if (record_window) {
         record_window.querySelector('.description').value = '';

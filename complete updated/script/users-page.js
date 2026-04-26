@@ -14,6 +14,8 @@ import { showUserContextMenu } from './usefull.js';
 import { render_search_users } from './func.js';
 
 const loader = document.querySelector(".loader");
+const newUesrWindow = document.querySelector('.new-user-window');
+
 
 
 //مسیر پروف
@@ -205,6 +207,7 @@ function show_new_user_window() {
 }
 
 function close_new_user_window() {
+    if (newUesrWindow.style.display !== "grid") newUesrWindow.style.display = "grid";
     const modal = document.querySelector('.modal-1');
     modal.style.display = 'none';
     modal.querySelector('.name').value = '';
@@ -314,7 +317,7 @@ async function add_user() {
 
 // ---------- ویرایش کاربر ----------
 function showEditUserModal(user) {
-    const window = document.querySelector('.new-user-window');
+    if (newUesrWindow.style.display !== "grid") newUesrWindow.style.display = "grid";
     const modal = document.querySelector('.modal-1');
     modal.querySelector('.name').value = user.name || '';
     modal.querySelector('.description').value = user.description || '';
@@ -330,7 +333,7 @@ function showEditUserModal(user) {
     saveBtn.onclick = async () => {
         if (loader && loader.style.display !== "block") loader.style.display = "block";
         
-        if (window && window.style.display !== "none") window.style.display = "none";
+        if (newUesrWindow && newUesrWindow.style.display !== "none") newUesrWindow.style.display = "none";
 
         const appData = await loadData();
         const targetUser = appData.customers.find(u => u.id == user.id);
@@ -361,7 +364,7 @@ function showEditUserModal(user) {
         modal.querySelector('.name')?.focus();
     }, 0);
 
-    if (window && window.style.display !== "grid") window.style.display = "grid";
+    
 }
 
 // ---------- راه‌اندازی صفحه ----------
