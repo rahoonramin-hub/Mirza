@@ -12,6 +12,8 @@ import {render_search_account_transactions} from './func.js';
 
 import {right_click} from './edits.js';
 
+import {normalizeProfPath} from './users-page.js';  
+
 const loader = document.querySelector(".loader");
 
 let unsubscribeData = null;
@@ -67,7 +69,7 @@ export async function renderAccountTransactions(appData) {
         recordDiv.className = 'record';
         recordDiv.innerHTML = `
             <div class="prof-wraper">
-                <img class="prof" src="${user.prof || 'prof/img.JPG'}">
+                <img class="prof" src="${normalizeProfPath(user.prof)}">
             </div>
             <div class="name-and-description">
                 <p class="name">${escapeHtml(user.name)}</p>

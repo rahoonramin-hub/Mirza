@@ -298,10 +298,9 @@ export async function right_click(x, y, user, trans, element) {
 
     const menu = document.createElement('div');
     menu.className = 'context-menu';
+    // استایل اولیه بدون تعیین left/top (بعداً درست می‌شود)
     menu.style.cssText = `
         position: fixed;
-        left: ${x}px;
-        top: ${y}px;
         background-color: #17212b;
         border: 1px solid #2ea6ff;
         border-radius: 8px;
@@ -309,8 +308,10 @@ export async function right_click(x, y, user, trans, element) {
         z-index: 1000;
         min-width: 120px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        visibility: hidden;  /* اول مخفی تا پرش دیده نشود */
     `;
 
+    // ... (ساخت گزینه‌های منو کاملاً مشابه قبل، بدون تغییر)
     const deleteOption = createOption('delete-option', async () => {
         await delete_trans(user, trans, element);
         menu.remove();
@@ -331,7 +332,6 @@ export async function right_click(x, y, user, trans, element) {
         menu.remove();
     }, '#ffa8f6', '👤 حساب مشتری');
 
-    // توابعی که در usefull.js تعریف شده‌اند باید global باشند یا import شوند
     const shareOption = createOption('share-option', () => {
         if (typeof shareTransaction === 'function') shareTransaction(user, trans);
         else alert('تابع اشتراک‌گذاری در دسترس نیست');
@@ -378,7 +378,40 @@ export async function right_click(x, y, user, trans, element) {
     menu.appendChild(editOption);
     menu.appendChild(deleteOption);
     menu.appendChild(detailOption);
+
     document.body.appendChild(menu);
+
+    // ----- اصلاح موقعیت به‌صورتی که از viewport خارج نشود -----
+    const margin = 10; // فاصله از لبه‌ها
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // استفاده از requestAnimationFrame برای اطمینان از اینکه مرورگر ابعاد را محاسبه کرده است
+    requestAnimationFrame(() => {
+        const rect = menu.getBoundingClientRect();
+
+        let finalLeft = x;
+        let finalTop = y;
+
+        // اگر منو از سمت راست خارج شود، آن را به چپ کلیک منتقل کن
+        if (rect.right > viewportWidth - margin) {
+            finalLeft = Math.max(margin, x - rect.width);
+        }
+        // اگر از پایین خارج شود، آن را بالای کلیک ببر
+        if (rect.bottom > viewportHeight - margin) {
+            finalTop = Math.max(margin, y - rect.height);
+        }
+        // جلوگیری از خروج از چپ یا بالا
+        finalLeft = Math.min(finalLeft, viewportWidth - rect.width - margin);
+        finalLeft = Math.max(margin, finalLeft);
+        finalTop = Math.min(finalTop, viewportHeight - rect.height - margin);
+        finalTop = Math.max(margin, finalTop);
+
+        menu.style.left = `${finalLeft}px`;
+        menu.style.top = `${finalTop}px`;
+        menu.style.visibility = 'visible';  // اکنون نمایش بده
+    });
+    // ---------------------------------------------------------
 
     setTimeout(() => {
         const closeMenu = (e) => {

@@ -456,11 +456,18 @@ export function showUserContextMenu(x, y, user, element) {
 
     const menu = document.createElement('div');
     menu.className = 'user-context-menu';
+    // استایل پایه بدون left/top، اول مخفی
     menu.style.cssText = `
-        position: fixed; left: ${x}px; top: ${y}px;
-        background: #17212b; border: 1px solid #2ea6ff; border-radius: 8px;
-        padding: 5px; z-index: 1000; min-width: 150px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.5); color: white;
+        position: fixed;
+        background: #17212b;
+        border: 1px solid #2ea6ff;
+        border-radius: 8px;
+        padding: 5px;
+        z-index: 1000;
+        min-width: 150px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        color: white;
+        visibility: hidden;
     `;
 
     function addOption(text, color, onClick) {
@@ -516,16 +523,13 @@ export function showUserContextMenu(x, y, user, element) {
         try {
             await syncManager.applyLocalChange(ownerUid, 'delete', customerId, null);
             
-            // حذف المنت از DOM
             if (element && element.remove) {
                 element.remove();
             }
             
-            // به‌روزرسانی UI صفحه کاربران (اگر تابع در window موجود باشد)
             if (typeof window.renderUsers === 'function') {
                 await window.renderUsers();
             } else {
-                // اگر watchUserData در users-page.js فعال شود، این خطا رخ نمی‌دهد
                 console.warn('برای به‌روزرسانی خودکار لیست کاربران، لطفاً watchUserData را در users-page.js فعال کنید.');
             }
         } catch (error) {
@@ -537,6 +541,36 @@ export function showUserContextMenu(x, y, user, element) {
     addOption('🟢 ارسال اطلاعات به واتساپ', '#7dff9b', () => sendCustomerInfoToWhatsApp(user));
 
     document.body.appendChild(menu);
+
+    // ----- تنظیم موقعیت هوشمند (همانند right_click) -----
+    const margin = 10;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    requestAnimationFrame(() => {
+        const rect = menu.getBoundingClientRect();
+
+        let finalLeft = x;
+        let finalTop = y;
+
+        if (rect.right > viewportWidth - margin) {
+            finalLeft = Math.max(margin, x - rect.width);
+        }
+        if (rect.bottom > viewportHeight - margin) {
+            finalTop = Math.max(margin, y - rect.height);
+        }
+
+        finalLeft = Math.min(finalLeft, viewportWidth - rect.width - margin);
+        finalLeft = Math.max(margin, finalLeft);
+        finalTop = Math.min(finalTop, viewportHeight - rect.height - margin);
+        finalTop = Math.max(margin, finalTop);
+
+        menu.style.left = `${finalLeft}px`;
+        menu.style.top = `${finalTop}px`;
+        menu.style.visibility = 'visible';
+    });
+    // ----------------------------------------------------
+
     const closeMenu = (e) => {
         if (!menu.contains(e.target)) {
             menu.remove();

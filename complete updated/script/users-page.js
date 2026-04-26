@@ -15,6 +15,18 @@ import { render_search_users } from './func.js';
 
 const loader = document.querySelector(".loader");
 
+
+//مسیر پروف
+export function normalizeProfPath(prof) {
+    if (!prof) return 'prof/img.JPG';
+    // اگر base64 یا آدرس کامل باشد
+    if (prof.startsWith('data:') || prof.startsWith('http') || prof.startsWith('blob:')) return prof;
+    // اگر از قبل شامل '/' باشد (یعنی مسیر دارد)
+    if (prof.includes('/')) return prof;
+    // در غیر اینصورت، فقط نام فایل است → پیشوند پوشه را اضافه کن
+    return 'prof/' + prof;
+}
+
 // ---------- ۱. فشرده‌سازی و تبدیل به base64 ----------
 async function compressAndConvertToBase64(file, maxWidth = 200, maxHeight = 200, quality = 0.6) {
     return new Promise((resolve, reject) => {
@@ -57,7 +69,7 @@ async function compressAndConvertToBase64(file, maxWidth = 200, maxHeight = 200,
 async function processProfileImage(file) {
     const ownerUid = auth.currentUser?.uid;
     if (!ownerUid) throw new Error('کاربر وارد نشده است');
-    if (!file) return 'img.JPG'; // تصویر پیش‌فرض
+    if (!file) return 'prof/img.JPG'; // تصویر پیش‌فرض
 
     // بازگرداندن یک رشتهٔ base64 کوچک (حداکثر ۲۰۰px عرض و کیفیت ۰.۶)
     return await compressAndConvertToBase64(file);
@@ -113,7 +125,7 @@ export async function renderUsers() {
         userEl.dataset.userId = user.id;
 
         userEl.innerHTML = `
-            <img class="prof" src="${user.prof || 'isha.jpg'}">
+            <img class="prof" src="${normalizeProfPath(user.prof)}">
             <div class="name-and-bookAddress">
                 <p class="name">${escapeHtml(user.name)}</p>
                 <p class="bookAddress">${escapeHtml(user.bookAddress || '')}</p>
@@ -147,6 +159,10 @@ export async function renderUsers() {
             event.preventDefault();
             showUserContextMenu(event.clientX, event.clientY, user, userEl);
         });
+       /* userEl.addEventListener('click', (event) => {
+            console.log(event);
+        //    window.location.href = `account.html?userId=${user.id}`;
+        });*/
 
         let lastTap = 0;
         let tapTimeout;
@@ -196,7 +212,7 @@ function close_new_user_window() {
     modal.querySelector('.telegram-id').value = '';
     modal.querySelector('.phone-num').value = '';
     modal.querySelector('.bookAddress').value = '';
-    modal.querySelector('.prof').src = 'prof/img.jpg';
+    modal.querySelector('.prof').src = 'prof/img.JPG';
     modal.querySelector('.prof-input').value = '';
     const saveBtn = modal.querySelector('.save');
     saveBtn.textContent = 'ثبت';
@@ -239,7 +255,7 @@ function prof_input() {
 
 // ---------- افزودن کاربر جدید ----------
 async function add_user() {
-    const modal = document.querySelector('.new-user-window');
+    const modal = document.querySelector('.modal-1');
     if (!modal) return;
     modal.style.display = "none";  // مخفی کردن فوری برای UX بهتر
 
@@ -260,7 +276,7 @@ async function add_user() {
     }
 
     const userId = String(Date.now());
-    let prof = "img.JPG";
+    let prof = "prof/img.JPG";
     // استفاده از base64 فشرده (اگر کاربر عکس انتخاب کرده باشد)
     if (modal._compressedBase64) {
         prof = modal._compressedBase64;
@@ -298,19 +314,24 @@ async function add_user() {
 
 // ---------- ویرایش کاربر ----------
 function showEditUserModal(user) {
+    const window = document.querySelector('.new-user-window');
     const modal = document.querySelector('.modal-1');
     modal.querySelector('.name').value = user.name || '';
     modal.querySelector('.description').value = user.description || '';
     modal.querySelector('.phone-num').value = user.phone_num || '';
     modal.querySelector('.telegram-id').value = user.telegram_id || '';
     modal.querySelector('.bookAddress').value = user.bookAddress || '';
-    modal.querySelector('.prof').src = user.prof || 'img.JPG';
+    modal.querySelector('.prof').src = normalizeProfPath(user.prof);
     // پاک کردن base64 قبلی
     if (modal._compressedBase64) delete modal._compressedBase64;
 
     const saveBtn = modal.querySelector('.save');
     saveBtn.textContent = 'ذخیره تغییرات';
     saveBtn.onclick = async () => {
+        if (loader && loader.style.display !== "block") loader.style.display = "block";
+        
+        if (window && window.style.display !== "none") window.style.display = "none";
+
         const appData = await loadData();
         const targetUser = appData.customers.find(u => u.id == user.id);
         if (!targetUser) return;
@@ -339,6 +360,8 @@ function showEditUserModal(user) {
     setTimeout(() => {
         modal.querySelector('.name')?.focus();
     }, 0);
+
+    if (window && window.style.display !== "grid") window.style.display = "grid";
 }
 
 // ---------- راه‌اندازی صفحه ----------

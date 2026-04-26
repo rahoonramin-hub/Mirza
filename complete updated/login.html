@@ -8,14 +8,36 @@
     <!--آیکون ها-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
  
-    <!--استایل-->
+    <!--استایل‌ها (لودینگ از icon.css میاد)-->
+    <link rel="stylesheet" href="styles/icon.css">
     <link rel="stylesheet" href="styles/login.css">
 
     <title>ورود به حساب</title>
- </head>
-<body>
 
-    <div class="login-container">
+    <style>
+        /* استایل اسپلش لودینگ */
+        .splash-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #0f1720;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+    </style>
+</head>
+<body>
+    <!-- اسپلش لودینگ تا زمان تصمیم‌گیری -->
+    <div id="splash" class="splash-loader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- فرم لاگین (مخفی تا زمان نیاز) -->
+    <div class="login-container" style="display:none;">
         <i class="fa-solid fa-user-check" ></i>
         <h2>ورود به برنامه حسابداری</h2>
         <input type="email" id="email" placeholder="ایمیل" class="input">
@@ -42,7 +64,14 @@
             }
         };
         onAuth((loggedIn) => {
-            if (loggedIn) window.location.href = 'home-complete.html';
+            if (loggedIn) {
+                // کاربر احراز هویت شده → هدایت به خانه
+                window.location.href = 'home-complete.html';
+            } else {
+                // کاربر مهمان → اسپلش را مخفی و فرم را نمایش بده
+                document.getElementById('splash').style.display = 'none';
+                document.querySelector('.login-container').style.display = '';
+            }
         });
     </script>
     <script>
